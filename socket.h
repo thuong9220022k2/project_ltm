@@ -9,7 +9,7 @@
 #include <queue>
 #include <thread>
 #include <mutex>
-
+#include <json-c/json.h>
 class Socket
 {
 public:
@@ -26,15 +26,7 @@ public:
     void disconnect();
     void startSendThread();
     std::mutex ther_Mutex;
-    // std::condition_variable dataReady;
-    // std::queue<DataStruct::Response> queueLogin;
-    // std::queue<DataStruct::Response> queueRoom;
-    // std::queue<DataStruct::Response> queueFriends;
-    // std::queue<DataStruct::Response> queueGameInvitation;
-    // DataStruct::Response popLoginData();
-    // DataStruct::Response popRoomData();
-    // DataStruct::Response popFriendsData();
-    // DataStruct::Response popGameInvitationData();
+    json_object *LoginResponse();
 
 private:
     sf::TcpSocket socket;
@@ -45,6 +37,8 @@ private:
     std::thread sendThread;
     std::mutex loginMutex;
     std::mutex roomMutex;
+    std::queue<json_object *> responseLoginQueue;
+    std::mutex queueLoginMutex;
     // std::mutex friendsMutex;
     // std::mutex gameInvitationMutex;
 };

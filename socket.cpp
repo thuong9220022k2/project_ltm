@@ -1,16 +1,10 @@
 #include "socket.h"
 #include <cstring>
-#include <json-c/json.h>
 #include "type.h"
 Socket::Socket()
     : serverAddress(new sf::IpAddress("127.0.0.1")), serverPort(12345)
 {
 }
-
-// Socket::~Socket()
-// {
-// 	disconnect();
-// }
 
 // Server functions
 bool Socket::bind(unsigned short port)
@@ -99,7 +93,8 @@ void Socket::receive()
             {
             case LOGIN:
             {
-
+                std::lock_guard<std::mutex> lock(queueLoginMutex);
+                responseLoginQueue.push(parsed_json);
                 break;
             }
 
@@ -108,6 +103,18 @@ void Socket::receive()
             }
         }
     }
+}
+
+json_object *Socket::LoginResponse()
+{
+    json_object *response = NULL;
+    if (!responseLoginQueue.empty())
+    {
+        std::lock_guard<std::mutex> lock(queueLoginMutex);
+        response = responseLoginQueue.front();
+        responseLoginQueue.pop();
+    }
+    return response;
 }
 
 void Socket::disconnect()

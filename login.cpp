@@ -98,7 +98,7 @@ void Login::handleEvents()
                     if (checkLogin())
                     {
                         // while (!getFriendsList());
-                        statusPage = "play";
+                        statusPage = "home";
                     }
                     else
                     {
@@ -136,6 +136,31 @@ bool Login::checkLogin()
     const char *json_string = json_object_to_json_string(jobj);
     socket->send(json_string);
     socket->receive();
+
+    json_object_put(jobj);
+
+    json_object *responseObj = socket->LoginResponse();
+    if (responseObj != NULL)
+    {
+        json_object *jmessage;
+
+        // Kiểm tra thông điệp trong phản hồi
+        if (json_object_object_get_ex(responseObj, "message", &jmessage))
+        {
+            const char *message = json_object_get_string(jmessage);
+
+            if (strcmp(message, "LOGIN SUCCESS") == 0)
+            {
+                json_object_put(responseObj);
+                return true;
+            }
+            else
+            {
+                std::cerr << "Login failed: " << message << std::endl;
+            }
+        }
+        json_object_put(responseObj);
+    }
     return false;
 }
 
