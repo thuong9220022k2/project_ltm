@@ -21,7 +21,7 @@ public:
     bool accept(Socket &client);
     // Client functions
     bool connect();
-    bool send(std::string message);
+    bool Socket::send(std::const char message);
     void receive();
     void disconnect();
     void startSendThread();

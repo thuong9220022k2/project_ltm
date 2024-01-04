@@ -4,7 +4,7 @@
 #include "login.h"
 #include "menu.h"
 #include "userlist.h"
-#include "home.h"
+#include "room_page.h"
 #include "room.h"
 #include "socket.h"
 class Route
@@ -14,7 +14,7 @@ private:
     Socket *socket;
     Login login;
     // Menu menu;
-    // Home home;
+    Home home;
     // Room room;
     // UserList userList;
     void getStatusPage(std::string str);

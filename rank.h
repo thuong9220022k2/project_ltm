@@ -7,12 +7,12 @@
 #include <string>
 #include <iostream>
 #include "socket.h"
-class Home : public Room, public Menu
+class Rank
 {
 public:
     std::string statusPage;
-    Home(sf::RenderWindow &window, Socket *socket);
-    void renderHome();
+    Rank(sf::RenderWindow &window, Socket *socket);
+    void renderRank();
     void run();
 
 private:

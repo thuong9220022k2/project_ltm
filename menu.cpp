@@ -66,7 +66,7 @@ void Menu::handleEventsMenu(sf::Event event)
         {
             if (room.getGlobalBounds().contains(sf::Vector2f(event.mouseButton.x, event.mouseButton.y)))
             {
-                statusPage = "room";
+                statusPage = "home";
             }
             if (rank.getGlobalBounds().contains(sf::Vector2f(event.mouseButton.x, event.mouseButton.y)))
             {
@@ -82,7 +82,7 @@ void Menu::handleEventsMenu(sf::Event event)
 
 void Menu::updateMenu()
 {
-    if (statusPage == "room")
+    if (statusPage == "home")
     {
         room.setFillColor(sf::Color(228, 131, 31));
         rank.setFillColor(sf::Color(224, 164, 102));

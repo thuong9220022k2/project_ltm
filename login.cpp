@@ -134,12 +134,15 @@ bool Login::checkLogin()
     json_object_object_add(jobj, "username", jusername);
     json_object_object_add(jobj, "password", jpassword);
     const char *json_string = json_object_to_json_string(jobj);
+    // in *json string
+    std::cout << json_string << std::endl;
     socket->send(json_string);
     socket->receive();
 
     json_object_put(jobj);
 
     json_object *responseObj = socket->LoginResponse();
+    std::cout << responseObj << std::endl;
     if (responseObj != NULL)
     {
         json_object *jmessage;
@@ -151,6 +154,7 @@ bool Login::checkLogin()
 
             if (strcmp(message, "LOGIN SUCCESS") == 0)
             {
+                std::cerr << "Login success " << std::endl;
                 json_object_put(responseObj);
                 return true;
             }

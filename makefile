@@ -83,8 +83,8 @@ userlist.o: userlist.cpp
 room.o: room.cpp
 	$(CC) $(CFLAGS) room.cpp -o room.o
 
-home.o: home.cpp
-	$(CC) $(CFLAGS) home.cpp -o home.o
+home.o: room_page.cpp
+	$(CC) $(CFLAGS) room_page.cpp -o home.o
 
 socket.o: socket.cpp
 	$(CC) $(CFLAGS) socket.cpp -o socket.o

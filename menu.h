@@ -26,12 +26,6 @@ private:
     sf::RectangleShape rank;
     sf::RectangleShape history;
 
-    // sf::Texture t_room;
-    // sf::Sprite s_room;
-    // sf::Texture t_rank;
-    // sf::Sprite s_rank;
-    // sf::Texture t_history;
-    // sf::Sprite s_history;
     sf::Text s_room;
     sf::Text s_rank;
     sf::Text s_history;

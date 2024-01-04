@@ -1,7 +1,7 @@
 #include "route.h"
 
 Route::Route(sf::RenderWindow &window, Socket *socket)
-    : window(window), socket(socket), login(window, socket), currentScreen(CurrentScreen::LOGIN)
+    : window(window), socket(socket), login(window, socket), currentScreen(CurrentScreen::LOGIN), home(window, socket)
 {
 }
 
@@ -19,10 +19,10 @@ void Route::getStatusPage(std::string str)
     {
         currentScreen = CurrentScreen::HOME;
     }
-    else if (str == "room")
-    {
-        currentScreen = CurrentScreen::ROOM;
-    }
+    // else if (str == "room")
+    // {
+    //     currentScreen = CurrentScreen::ROOM;
+    // }
     else if (str == "rank")
     {
         currentScreen = CurrentScreen::RANK;
@@ -53,10 +53,13 @@ void Route::update()
     case CurrentScreen::REGISTER:
         break;
     case CurrentScreen::HOME:
-        break;
-    case CurrentScreen::ROOM:
+        home.statusPage = "home";
+        getStatusPage(home.statusPage);
+        window.clear();
+        home.run();
         break;
     case CurrentScreen::RANK:
+
         break;
     case CurrentScreen::HISTORY:
         break;

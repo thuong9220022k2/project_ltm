@@ -52,6 +52,43 @@ void Room::drawRoom()
     window.draw(text3);
 }
 
+void Room::handleEventRoom(sf::Event &event)
+{
+    sf::Vector2f mousePos = static_cast<sf::Vector2f>(sf::Mouse::getPosition(window));
+
+    // Process the event for mouse button press
+    if (event.type == sf::Event::MouseButtonPressed && event.mouseButton.button == sf::Mouse::Left)
+    {
+        if (bt1.getGlobalBounds().contains(mousePos))
+        {
+            isBt1Toggled = !isBt1Toggled; // Toggle the state of the button
+            selectedMode = isBt1Toggled ? "Multiplayer" : "";
+        }
+        else if (bt2.getGlobalBounds().contains(mousePos))
+        {
+            isBt2Toggled = !isBt2Toggled; // Toggle the state of the button
+            selectedMode = isBt2Toggled ? "Singleplayer" : "";
+        }
+        else if (bt3.getGlobalBounds().contains(mousePos) && selectedMode == "Multiplayer")
+        {
+            // Send request to create room
+            createRoom(selectedMode);
+        }
+    }
+}
+
+void Room::updateUI()
+{
+    // Update button colors based on toggle state
+    bt1.setFillColor(isBt1Toggled ? sf::Color(128, 128, 128) : sf::Color::White);
+    bt2.setFillColor(isBt2Toggled ? sf::Color(128, 128, 128) : sf::Color::White);
+}
+
+void Room::createRoom(const std::string &mode)
+{
+    // Code to send request to server using socket and 'send' function
+}
+
 void Room::run()
 {
     while (window.isOpen())
@@ -63,10 +100,12 @@ void Room::run()
             {
                 window.close();
             }
+            handleEventRoom(e);
         }
 
         window.clear(sf::Color::White);
         drawRoom();
+        updateUI();
         window.display();
     }
 }

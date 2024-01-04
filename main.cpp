@@ -6,7 +6,7 @@
 #include "login.h"
 #include "menu.h"
 #include "userlist.h"
-#include "home.h"
+#include "room_page.h"
 #include "room.h"
 #include "socket.h"
 #include "route.h"
@@ -17,13 +17,13 @@ int main()
     // loginScreen.run();
     // Menu menu(window);
     // menu.run();
-    // Home home(window, {"user1", "user2", "user3"});
+    Socket clientSocket;
+    // Home home(window, &clientSocket);
     // home.run();
     // Room room(window);
     // room.run();
 
     window.setPosition(sf::Vector2i(80, 10));
-    Socket clientSocket;
     Route route(window, &clientSocket);
     std::thread ther_socket;
     ther_socket = std::thread(&Socket::connect, &clientSocket);

@@ -2,7 +2,7 @@
 #include <cstring>
 #include "type.h"
 Socket::Socket()
-    : serverAddress(new sf::IpAddress("127.0.0.1")), serverPort(12345)
+    : serverAddress(new sf::IpAddress("127.0.0.1")), serverPort(8100)
 {
 }
 
@@ -56,10 +56,27 @@ bool Socket::connect()
     return true;
 }
 
-bool Socket::send(std::string message)
+// bool Socket::send(const std::string& message)
+// {
+//     std::size_t sent;
+//     if (socket.send(message.c_str(), message.size(), sent) != sf::Socket::Done)
+//     {
+//         std::cerr << "Error sending data to server\n";
+//         return false;
+//     }
+//     else
+//     {
+//         std::cout << "Sending data successfully\n";
+//     }
+//     return true;
+// }
+
+bool Socket::send(std::const char message)
 {
     std::size_t sent;
-    if (socket.send(&message, sizeof(message), sent) != sf::Socket::Done)
+    // in message
+    std::cout << message << std::endl;
+    if (socket.send(message.c_str(), sizeof(message), sent) != sf::Socket::Done)
     {
         std::cerr << "Error sending data to server\n";
         return false;
@@ -104,6 +121,57 @@ void Socket::receive()
         }
     }
 }
+
+// void Socket::receive()
+// {
+//     const std::size_t bufferSize = 1024; // Define an appropriate buffer size
+//     char buffer[bufferSize];
+//     std::size_t received;
+
+//     while (true)
+//     {
+//         sf::Socket::Status status = socket.receive(buffer, bufferSize, received);
+//         if (status != sf::Socket::Done)
+//         {
+//             std::cerr << "Error receiving data from server" << std::endl;
+//         }
+//         else
+//         {
+//             std::string response(buffer, received);
+
+//             json_object *parsed_json = json_tokener_parse(response.c_str());
+//             if (parsed_json == nullptr)
+//             {
+//                 std::cerr << "Error parsing JSON" << std::endl;
+//                 continue;
+//             }
+
+//             json_object *jtype;
+//             if (!json_object_object_get_ex(parsed_json, "type", &jtype))
+//             {
+//                 std::cerr << "Error: type field missing in JSON" << std::endl;
+//                 json_object_put(parsed_json);
+//                 continue;
+//             }
+
+//             int type = json_object_get_int(jtype);
+//             std::cout << "Received data successfully\n";
+//             switch (type)
+//             {
+//             case LOGIN:
+//             {
+//                 std::lock_guard<std::mutex> lock(queueLoginMutex);
+//                 responseLoginQueue.push(parsed_json);
+//                 break;
+//             }
+
+//             default:
+//                 json_object_put(parsed_json);
+//                 break;
+//             }
+//         }
+//     }
+// }
 
 json_object *Socket::LoginResponse()
 {
